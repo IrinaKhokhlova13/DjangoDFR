@@ -33,3 +33,6 @@ class LessonUpdateAPIViewSet(generics.RetrieveUpdateAPIView):
 
 class LessonDeleteAPIViewSet(generics.RetrieveDestroyAPIView):
     queryset = Lesson.objects.all()
+
+class CourseCreateAPIViewSet(generics.CreateAPIView):
+    serializer_class = CourseSerializer

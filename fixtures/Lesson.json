@@ -1,0 +1,46 @@
+[
+{
+    "model": "materials.lesson",
+    "pk": 1,
+    "fields": {
+        "name": "Базовые знания",
+        "description": "Базовые знания Pyton",
+        "preview_image": "",
+        "course": 1,
+        "video_link": null
+    }
+},
+{
+    "model": "materials.lesson",
+    "pk": 2,
+    "fields": {
+        "name": "Компьютерные сети",
+        "description": "Основы компьютерных сетей",
+        "preview_image": "",
+        "course": 2,
+        "video_link": null
+    }
+},
+{
+    "model": "materials.lesson",
+    "pk": 3,
+    "fields": {
+        "name": "Основы алгоритмизации",
+        "description": null,
+        "preview_image": "",
+        "course": 3,
+        "video_link": null
+    }
+},
+{
+    "model": "materials.lesson",
+    "pk": 4,
+    "fields": {
+        "name": "Основы инженерии",
+        "description": null,
+        "preview_image": "",
+        "course": 4,
+        "video_link": null
+    }
+}
+]

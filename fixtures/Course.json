@@ -1,0 +1,38 @@
+[
+{
+    "model": "materials.course",
+    "pk": 1,
+    "fields": {
+        "title": "Основы Python",
+        "description": "Базовые знания",
+        "preview_image": ""
+    }
+},
+{
+    "model": "materials.course",
+    "pk": 2,
+    "fields": {
+        "title": "Системный администратор",
+        "description": "Курс для тех, кто хочет стать сисадмином",
+        "preview_image": ""
+    }
+},
+{
+    "model": "materials.course",
+    "pk": 3,
+    "fields": {
+        "title": "Техник-программист",
+        "description": "Основные базовые знания",
+        "preview_image": ""
+    }
+},
+{
+    "model": "materials.course",
+    "pk": 4,
+    "fields": {
+        "title": "Инженер-программист",
+        "description": " Разработчик профессионально-ориентированных компьютерных технологий",
+        "preview_image": ""
+    }
+}
+]

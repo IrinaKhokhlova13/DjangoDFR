@@ -15,7 +15,7 @@ class Course(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name}", {self.description[:50]}
+        return f"{self.title}, {self.description[:50]}"
 
     class Meta:
         verbose_name = "Курс"
@@ -32,7 +32,7 @@ class Lesson(models.Model):
     preview_image = models.ImageField(
         upload_to="lesson_images", verbose_name="Превью", **NULLABLE
     )
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс", related_name="lessons", **NULLABLE)
     video_link = models.URLField(verbose_name="Ссылка на видео-курс", **NULLABLE)
 
     def __str__(self):
