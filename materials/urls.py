@@ -1,6 +1,5 @@
 from django.urls import path
 from rest_framework import routers
-from materials.serializers import CourseSerializer, LessonSerializer
 from materials.views import (LessonCreateAPIViewSet, LessonListAPIViewSet, LessonDetailAPIViewSet,
                              LessonDeleteAPIViewSet, LessonUpdateAPIViewSet, CourseViewSet, CourseCreateAPIViewSet)
 from materials.apps import MaterialsConfig

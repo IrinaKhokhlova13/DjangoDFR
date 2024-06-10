@@ -1,6 +1,5 @@
 
 from materials.models import Course, Lesson
-
 from rest_framework import generics, viewsets
 from materials.serializers import (CourseSerializer, LessonSerializer)
 
