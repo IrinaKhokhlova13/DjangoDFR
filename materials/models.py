@@ -1,5 +1,7 @@
 from django.db import models
 
+from config import settings
+
 # Create your models here.
 NULLABLE = {"null": True, "blank": True}
 
@@ -13,6 +15,9 @@ class Course(models.Model):
     preview_image = models.ImageField(
         upload_to="course_images", verbose_name="Превью", **NULLABLE
     )
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Владелец курса",
+                              **NULLABLE
+                              )
 
     def __str__(self, description=None):
         return f"{self.title}, {self.description[:50]}"
@@ -32,8 +37,13 @@ class Lesson(models.Model):
     preview_image = models.ImageField(
         upload_to="lesson_images", verbose_name="Превью", **NULLABLE
     )
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс", related_name="lessons", **NULLABLE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс", related_name="lessons",
+                               **NULLABLE)
     video_link = models.URLField(verbose_name="Ссылка на видео-курс", **NULLABLE)
+
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Владелец лекции", **NULLABLE
+    )
 
     def __str__(self):
         return f"{self.name}, {self.description[:20]}"
