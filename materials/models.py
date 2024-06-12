@@ -8,13 +8,13 @@ class Course(models.Model):
     """Модель курса, параметры курса: названеие, превью, описание"""
 
     title = models.CharField(max_length=100, verbose_name="Название курса")
-    description = models.TextField(verbose_name="Описание")
+    description = models.TextField(verbose_name="Описание", **NULLABLE)
     # upload_to - путь до папки, в которую будут сохраняться изображения
     preview_image = models.ImageField(
         upload_to="course_images", verbose_name="Превью", **NULLABLE
     )
 
-    def __str__(self):
+    def __str__(self, description=None):
         return f"{self.title}, {self.description[:50]}"
 
     class Meta:
