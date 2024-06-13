@@ -1,33 +1,7 @@
-from django_filters.rest_framework.backends import DjangoFilterBackend
-from rest_framework.filters import OrderingFilter
-from rest_framework.permissions import IsAuthenticated
-
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenObtainPairView
-
-from users.models import Payments, User
-from users.serializers import PaymentsSerializer, UserSerializer
-from rest_framework.decorators import api_view, permission_classes
+from users.models import User
+from users.serializers import UserSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView
-
-
-class PaymentsListAPIView(ListAPIView):
-    """
-    Контроллер списка платежей
-    """
-    serializer_class = PaymentsSerializer
-    queryset = Payments.objects.all()
-    filter_backends = [
-        DjangoFilterBackend,
-        OrderingFilter,
-    ]  # Бэкенд для обработки фильтра
-    filterset_fields = (
-        "paid_course",
-        "paid_lesson",
-        "payment_method",
-    )  # Набор полей для
-    ordering_fields = ("data_payment",)  # сортировки
 
 
 class UserListAPIView(ListAPIView):

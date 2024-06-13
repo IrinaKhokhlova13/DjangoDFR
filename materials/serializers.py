@@ -1,6 +1,9 @@
 from rest_framework.serializers import ModelSerializer
-from materials.models import Course, Lesson
+from materials.models import Course, Lesson, Subscription, Payments
 from rest_framework import serializers
+
+from materials.validators import LessonsValidator
+
 
 class LessonSerializer(ModelSerializer):
     """Serializer for Lessons"""
@@ -8,6 +11,7 @@ class LessonSerializer(ModelSerializer):
     class Meta:
         model = Lesson
         fields = '__all__'
+        validators = [LessonsValidator(url="video_link")]
 
 
 class CourseSerializer(ModelSerializer):
@@ -29,3 +33,20 @@ class CourseSerializer(ModelSerializer):
     @staticmethod
     def get_count_lessons(obj):
         return Lesson.objects.filter(course=obj).count()
+
+
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    """Класс сериализатора для модели Subscription"""
+
+    class Meta:
+        model = Subscription
+        fields = "__all__"
+
+
+class PaymentsSerializer(serializers.Serializer):
+    """Класс сериализатора для модели Payments"""
+
+    class Meta:
+        model = Payments
+        fields = "__all__"
