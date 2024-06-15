@@ -1,5 +1,7 @@
 from rest_framework.test import APITestCase
-from materials.models import Lesson
+from materials.models import Lesson, Course, Subscription
+from users.models import User
+from rest_framework import status
 
 
 class LessonsTestCase(APITestCase):
@@ -46,3 +48,39 @@ class LessonsTestCase(APITestCase):
         lesson = Lesson.objects.create(name='test_lesson', description='test_description')
         response = self.client.delete(f'/school/lessons/{lesson.id}/delete/')
         self.assertEqual(response.status_code, 204)
+
+
+
+
+
+class SubscriptionTestCase(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create(email="admin@service.py")
+        self.user.set_password('1')
+        self.client.force_authenticate(user=self.user)
+        self.course = Course.objects.create(title="Python_29", owner=self.user)
+
+    def test_subscribe(self):
+        data = {
+            "course": self.course.pk
+        }
+        response = self.client.post(
+            '/course/subscribe/',
+            data=data
+        )
+        data = response.json()
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(data, {'message': 'Подписка включена'})
+
+    def test_unsubscribe(self):
+        data = {
+            "course": self.course.pk
+        }
+        Subscription.objects.create(course=self.course, user=self.user)
+        response = self.client.post(
+            '/course/subscribe/',
+            data=data
+        )
+        data = response.json()
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(data, {'message': 'Подписка отключена'})

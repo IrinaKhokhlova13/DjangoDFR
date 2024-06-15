@@ -20,10 +20,17 @@ class CourseSerializer(ModelSerializer):
     count_lessons = serializers.SerializerMethodField(read_only=True)
     lessons = LessonSerializer(many=True, read_only=True)
     read_only = True
+    subscription = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
         fields = ["title", "description", "count_lessons", "lessons"]
+
+
+    def get_subscription(self, instance):
+        user = self.context['request'].user
+        return Subscription.objects.all().filter(user=user).filter(course=instance).exists()
+
 
     def perform_create(self, serializer):
         new_course = serializer.save()
