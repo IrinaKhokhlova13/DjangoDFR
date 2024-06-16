@@ -24,7 +24,7 @@ class CourseSerializer(ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ["title", "description", "count_lessons", "lessons"]
+        fields = "__all__"
 
 
     def get_subscription(self, instance):
@@ -51,7 +51,7 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class PaymentsSerializer(serializers.Serializer):
+class PaymentsSerializer(serializers.ModelSerializer):
     """Класс сериализатора для модели Payments"""
 
     class Meta:

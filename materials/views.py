@@ -3,7 +3,7 @@ from materials.models import Course, Lesson, Subscription, Payments
 from rest_framework import generics, viewsets
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import get_object_or_404, ListAPIView
-from rest_framework.permissions import  AllowAny
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
@@ -11,6 +11,7 @@ from materials.paginators import CoursePaginator, LessonPaginator
 
 from materials.permissions import IsOwnerOrStaff, IsModerator
 from materials.serializers import (CourseSerializer, LessonSerializer, SubscriptionSerializer, PaymentsSerializer)
+from materials.services import create_product_with_price, create_stripe_session
 
 
 
@@ -103,3 +104,20 @@ class PaymentsListAPIView(ListAPIView):
         "payment_method",
     )  # Набор полей для
     ordering_fields = ("data_payment",)  # сортировки
+
+
+
+class PaymentsCreateAPIView(generics.CreateAPIView):
+    """Контроллер создания платежа"""
+    serializer_class = PaymentsSerializer
+    queryset = Payments.objects.all()
+    permission_classes = [AllowAny]
+
+    def perform_create(self, serializer):
+        payment = serializer.save(user=self.request.user)
+        product = f'{payment.paid_course}' if payment.paid_course else f'{payment.paid_lesson}'
+        price = create_product_with_price(name=product, unit_amount=payment.amount)
+        session_id, payment_link = create_stripe_session(price)
+        payment.session_id = session_id
+        payment.link = payment_link
+        payment.save()

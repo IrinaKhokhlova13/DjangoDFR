@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "django_filters",
     "rest_framework_simplejwt",
     "rest_framework",
+    "drf_yasg",
     "users",
     "materials",
 ]
@@ -115,12 +116,15 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny",
+        "rest_framework.permissions.IsAuthenticated",
     ],
 }
-
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
+
+
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PK")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SK")
