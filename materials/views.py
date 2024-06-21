@@ -12,6 +12,7 @@ from materials.paginators import CoursePaginator, LessonPaginator
 from materials.permissions import IsOwnerOrStaff, IsModerator
 from materials.serializers import (CourseSerializer, LessonSerializer, SubscriptionSerializer, PaymentsSerializer)
 from materials.services import create_product_with_price, create_stripe_session
+from materials.tasks import sending_mails
 
 
 
@@ -67,7 +68,13 @@ class CourseCreateAPIViewSet(generics.CreateAPIView):
 class CourseUpdateAPIViewSet(generics.RetrieveUpdateAPIView):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
-    permission_classes = [IsOwnerOrStaff | IsModerator]
+    permission_classes = [AllowAny]
+
+    def get_object(self):
+        print('запускаю рассылку')
+        sending_mails.delay(pk=self.kwargs['pk'])
+
+
 
 class SubscriptionCreateAPIView(APIView):
     """Контроллер создания и удаление подписки"""
